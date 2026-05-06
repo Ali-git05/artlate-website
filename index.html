@@ -156,33 +156,10 @@
     footer{padding:48px 16px 28px}
     .fg{grid-template-columns:1fr;gap:28px}
     .fbot{flex-direction:column;align-items:flex-start}
-    #hero-wordmark{font-size:clamp(42px,13vw,72px);padding:28px 16px 36px;letter-spacing:0.1em}
   }
-
-  /* CURSOR */
-  #cursor{width:8px;height:8px;background:var(--black);border-radius:50%;position:fixed;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:width 0.18s ease,height 0.18s ease,opacity 0.2s ease;opacity:0}
-  #cursor.active{opacity:1}
-  #cursor.grow{width:36px;height:36px}
-  @media(hover:none){#cursor{display:none!important}}
-
-  /* HERO WORDMARK */
-  #hero-wordmark{text-align:center;padding:44px 24px 60px;font-size:clamp(56px,10vw,136px);font-weight:500;letter-spacing:0.22em;text-transform:uppercase;transform-origin:50% 0;will-change:transform,opacity;line-height:1}
-
-  /* ENHANCED CARD HOVER */
-  .pc{transition:transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94)}
-  .pc:hover{transform:translateY(-6px)}
-  .pc-img{transition:box-shadow 0.4s ease}
-  .pc:hover .pc-img{box-shadow:0 18px 44px rgba(0,0,0,0.11)}
-  .pc-img img{transition:transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94)!important}
-  .pc:hover .pc-img img{transform:scale(1.08)!important}
-
-  /* SCROLL REVEAL */
-  .reveal{opacity:0;transform:translateY(26px);transition:opacity 0.65s ease,transform 0.65s ease}
-  .reveal.in{opacity:1;transform:translateY(0)}
 </style>
 </head>
 <body>
-<div id="cursor"></div>
 
 <!-- SPLASH -->
 <div id="splash" onclick="closeSplash()">
@@ -210,8 +187,6 @@
     <a href="#">Cart (0)</a>
   </div>
 </nav>
-
-<div id="hero-wordmark">ART LATE</div>
 
 <section class="hero">
   <div class="hero-left">
@@ -380,51 +355,6 @@ function selectSize(btn){
   document.querySelectorAll('.sz').forEach(function(b){b.classList.remove('active')});
   btn.classList.add('active');
 }
-
-// Custom cursor
-var cur=document.getElementById('cursor');
-if(cur&&window.matchMedia('(hover:hover)').matches){
-  document.addEventListener('mousemove',function(e){
-    cur.style.left=e.clientX+'px';
-    cur.style.top=e.clientY+'px';
-    cur.classList.add('active');
-  });
-  document.querySelectorAll('a,button,.pc,.acc-card,.nav-logo,.btn-atc,.btn-wh').forEach(function(el){
-    el.addEventListener('mouseenter',function(){cur.classList.add('grow')});
-    el.addEventListener('mouseleave',function(){cur.classList.remove('grow')});
-  });
-}
-
-// Hero wordmark shrink into nav
-var hw=document.getElementById('hero-wordmark');
-var nl=document.querySelector('.nav-logo');
-if(hw&&nl){
-  nl.style.opacity='0';
-  nl.style.transition='opacity 0.35s ease';
-  function onScrollHW(){
-    var s=window.scrollY;
-    var hwEnd=hw.offsetTop+hw.offsetHeight;
-    var p=Math.min(Math.max(s/hwEnd,0),1);
-    hw.style.opacity=Math.max(1-p*1.9,0);
-    hw.style.transform='scale('+(1-p*0.58)+') translateY('+(-(p*28))+'px)';
-    nl.style.opacity=p>0.52?Math.min((p-0.52)/0.48,1):0;
-  }
-  window.addEventListener('scroll',onScrollHW,{passive:true});
-  onScrollHW();
-}
-
-// Scroll reveal on product cards
-var revEls=document.querySelectorAll('.pc,.acc-card');
-revEls.forEach(function(el,i){
-  el.classList.add('reveal');
-  el.style.transitionDelay=(i%4*0.08)+'s';
-});
-var ro=new IntersectionObserver(function(entries){
-  entries.forEach(function(e){
-    if(e.isIntersecting){e.target.classList.add('in');ro.unobserve(e.target);}
-  });
-},{threshold:0.07});
-revEls.forEach(function(el){ro.observe(el)});
 </script>
 </body>
 </html>
