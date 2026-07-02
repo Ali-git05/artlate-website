@@ -110,7 +110,7 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 .editorial-img {
   width: 100%; height: 100%;
   object-fit: cover;
-  object-position: center 18%;
+  object-position: center 62%;
   display: block;
 }
 .editorial-overlay {
@@ -139,12 +139,12 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 }
 @media (max-width: 768px) {
   .editorial { height: 70vh; }
-  .editorial-img { object-position: center 22%; }
+  .editorial-img { object-position: center 65%; }
   .editorial-overlay { padding: 28px; }
 }
 @media (max-width: 480px) {
   .editorial { height: 60vh; }
-  .editorial-img { object-position: center 25%; }
+  .editorial-img { object-position: center 68%; }
 }
 
 /* FEATURE */
