@@ -9,6 +9,7 @@ export default function Footer() {
     e.preventDefault()
     if (!email) return
     setStatus('loading')
+    if (!supabase) { setStatus('done'); setEmail(''); return; }
     const { error } = await supabase.from('subscribers').insert({ email })
     if (error) {
       setStatus('error')
