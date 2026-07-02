@@ -1,43 +1,14 @@
-import { useState } from 'react'
-import { supabase } from '../lib/supabase'
-
 export default function Footer() {
-  const [email, setEmail] = useState('')
-  const [status, setStatus] = useState(null)
-
-  async function handleSubscribe(e) {
-    e.preventDefault()
-    if (!email) return
-    setStatus('loading')
-    if (!supabase) { setStatus('done'); setEmail(''); return; }
-    const { error } = await supabase.from('subscribers').insert({ email })
-    if (error) {
-      setStatus('error')
-    } else {
-      setStatus('done')
-      setEmail('')
-    }
-  }
-
   return (
     <footer>
       <div className="fg">
         <div>
           <p className="fb">Art Late</p>
           <p className="ft">The Art Of Being Late®</p>
-          <form className="er" onSubmit={handleSubscribe}>
-            <input
-              className="ei"
-              type="email"
-              placeholder={status === 'done' ? 'You\'re in.' : 'Enter your email'}
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              disabled={status === 'loading' || status === 'done'}
-            />
-            <button className="es" type="submit" disabled={status === 'loading'}>
-              {status === 'loading' ? '...' : 'Subscribe →'}
-            </button>
-          </form>
+          <div className="er">
+            <input className="ei" type="email" placeholder="Enter your email" />
+            <button className="es">Subscribe →</button>
+          </div>
         </div>
         <div className="fc">
           <p className="fc-t">Shop</p>
