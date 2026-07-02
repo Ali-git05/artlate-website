@@ -80,7 +80,7 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 .coll-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; }
 .coll-title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 400; }
 .coll-link { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #9a9a9a; cursor: pointer; border-bottom: 1px solid #e8e8e6; padding-bottom: 2px; }
-.grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; }
+.grid-5 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
 .pc { cursor: pointer; }
 .pc-img { aspect-ratio: 3/4; overflow: hidden; background: #f5f5f3; margin-bottom: 10px; }
 .pc-img img { width: 100%; height: 100%; object-fit: cover; object-position: top center; transition: transform 0.5s ease; }
@@ -154,5 +154,5 @@ footer { background: #0a0a0a; color: #fff; padding: 68px 24px 34px; }
   footer { padding: 48px 16px 28px; }
   .fg { grid-template-columns: 1fr; gap: 28px; }
   .fbot { flex-direction: column; align-items: flex-start; }
-  .grid-5 { grid-template-columns: repeat(2, 1fr); }
+  .grid-5 { grid-template-columns: repeat(2, 1fr); gap: 2px; }
 }

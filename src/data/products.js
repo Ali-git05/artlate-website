@@ -1,13 +1,9 @@
 import splashLogo from '../assets/splash-logo.jpg'
 import hero from '../assets/hero.jpg'
 import product1 from '../assets/product-1.jpg'
-import product2 from '../assets/product-2.jpg'
 import product3 from '../assets/product-3.jpg'
 import product4 from '../assets/product-4.jpg'
 import product5 from '../assets/product-5.jpg'
-import hatPink from '../assets/hat-pink.jpg'
-import hatBlack from '../assets/hat-black.jpg'
-import featureImg from '../assets/feature.jpg'
 
 export { splashLogo }
 
@@ -32,15 +28,6 @@ export const collection = [
     priceEGP: '750 EGP',
     colors: [{ bg: '#8B1A1A', border: '#e8e8e6' }],
     alt: 'Red Tee',
-  },
-  {
-    id: 2,
-    image: product2,
-    name: 'Cheers Mademoiselle Tee',
-    priceUSD: '$65',
-    priceEGP: '750 EGP',
-    colors: [{ bg: '#a8d8c8', border: '#e8e8e6' }],
-    alt: 'Mint Tee',
   },
   {
     id: 3,
@@ -71,28 +58,7 @@ export const collection = [
   },
 ]
 
-export const accessories = [
-  {
-    id: 1,
-    image: hatPink,
-    name: 'Art Late Bucket Hat — Pink',
-    priceUSD: '$45',
-    priceEGP: '520 EGP',
-    colors: [{ bg: '#f4a7c3', border: '#e8e8e6' }],
-    alt: 'Pink Bucket Hat',
-  },
-  {
-    id: 2,
-    image: hatBlack,
-    name: 'Art Late Bucket Hat — Black',
-    priceUSD: '$45',
-    priceEGP: '520 EGP',
-    colors: [{ bg: '#1a1a1a', border: '#e8e8e6' }],
-    alt: 'Black Bucket Hat',
-  },
-]
-
-export const featureImage = featureImg
+export const featureImage = product3
 
 export const marqueeItems = [
   'The Art Of Being Late®',
