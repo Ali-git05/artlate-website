@@ -17,7 +17,7 @@ export const heroProduct = {
   priceEGP: '750 EGP',
   sizes: ['S', 'M', 'L', 'XL'],
   defaultSize: 'M',
-  handle: 'pardon-mademoiselle-tee',
+  handle: 'pardon-mademoiselle',
 }
 
 export const collection = [
@@ -29,7 +29,7 @@ export const collection = [
     priceEGP: '750 EGP',
     colors: [{ bg: '#8B1A1A', border: '#e8e8e6' }],
     alt: 'Red Tee',
-    handle: 'pardon-mademoiselle-tee',
+    handle: 'pardon-mademoiselle',
   },
   {
     id: 3,
@@ -39,7 +39,7 @@ export const collection = [
     priceEGP: '750 EGP',
     colors: [{ bg: '#1a2545', border: '#e8e8e6' }],
     alt: 'Navy Tee',
-    handle: 'pardon-mademoiselle-tee',
+    handle: 'pardon-mademoiselle',
   },
   {
     id: 4,
