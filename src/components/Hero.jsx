@@ -1,8 +1,20 @@
 import { useState } from 'react'
 import { heroProduct } from '../data/products'
+import { useShopifyProduct } from '../hooks/useShopifyProduct'
+import { useCart } from '../context/CartContext'
 
 export default function Hero({ currency }) {
   const [activeSize, setActiveSize] = useState(heroProduct.defaultSize)
+  const { variantMap } = useShopifyProduct(heroProduct.handle)
+  const { addItem, loading } = useCart()
+
+  const selectedVariant = variantMap[activeSize]
+  const unavailable = selectedVariant && !selectedVariant.availableForSale
+
+  function handleAddToCart() {
+    if (!selectedVariant) return
+    addItem(selectedVariant.id)
+  }
 
   return (
     <section className="hero">
@@ -32,7 +44,13 @@ export default function Hero({ currency }) {
             </button>
           ))}
         </div>
-        <button className="btn-atc">Add to Cart</button>
+        <button
+          className="btn-atc"
+          onClick={handleAddToCart}
+          disabled={loading || !selectedVariant || unavailable}
+        >
+          {loading ? 'Adding…' : unavailable ? 'Sold Out' : 'Add to Cart'}
+        </button>
       </div>
     </section>
   )

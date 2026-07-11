@@ -5,7 +5,7 @@ export default function Accessories({ currency }) {
     <section className="acc-section">
       <div className="acc-head">
         <h2 className="acc-title">Accessories</h2>
-        <a className="coll-link">View All</a>
+        <a className="coll-link" href="#">View All</a>
       </div>
       <div className="acc-grid">
         {accessories.map(item => (

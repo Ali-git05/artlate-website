@@ -13,36 +13,36 @@ export default function Footer() {
         <div className="fc">
           <p className="fc-t">Shop</p>
           <ul>
-            <li>Drop 001</li>
-            <li>Tees</li>
-            <li>Accessories</li>
-            <li>All Products</li>
+            <li><a href="#">Drop 001</a></li>
+            <li><a href="#">Tees</a></li>
+            <li><a href="#">Accessories</a></li>
+            <li><a href="#">All Products</a></li>
           </ul>
         </div>
         <div className="fc">
           <p className="fc-t">Help</p>
           <ul>
-            <li>Sizing Guide</li>
-            <li>Shipping</li>
-            <li>Returns</li>
-            <li>Contact</li>
+            <li><a href="#">Sizing Guide</a></li>
+            <li><a href="#">Shipping</a></li>
+            <li><a href="#">Returns</a></li>
+            <li><a href="#">Contact</a></li>
           </ul>
         </div>
         <div className="fc">
           <p className="fc-t">Brand</p>
           <ul>
-            <li>About Us</li>
-            <li>Instagram</li>
-            <li>TikTok</li>
-            <li>Press</li>
+            <li><a href="#">About Us</a></li>
+            <li><a href="https://www.instagram.com/artlate" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+            <li><a href="https://www.tiktok.com/@artlate" target="_blank" rel="noopener noreferrer">TikTok</a></li>
+            <li><a href="#">Press</a></li>
           </ul>
         </div>
       </div>
       <div className="fbot">
-        <span className="fc-copy">© 2025 Art Late® · All rights reserved</span>
+        <span className="fc-copy">© 2026 Art Late® · All rights reserved</span>
         <div className="fsoc">
-          <span>Instagram</span>
-          <span>TikTok</span>
+          <a href="https://www.instagram.com/artlate" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="https://www.tiktok.com/@artlate" target="_blank" rel="noopener noreferrer">TikTok</a>
         </div>
       </div>
     </footer>

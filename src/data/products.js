@@ -1,5 +1,5 @@
 import splashLogo from '../assets/splash-logo.jpg'
-import hero from '../assets/hero.jpg'
+import hero from '../assets/product-1-back.jpg'
 import product1 from '../assets/product-1.jpg'
 import product3 from '../assets/product-3.jpg'
 import product4 from '../assets/product-4.jpg'
@@ -17,6 +17,7 @@ export const heroProduct = {
   priceEGP: '750 EGP',
   sizes: ['S', 'M', 'L', 'XL'],
   defaultSize: 'M',
+  handle: 'pardon-mademoiselle-tee',
 }
 
 export const collection = [
@@ -28,6 +29,7 @@ export const collection = [
     priceEGP: '750 EGP',
     colors: [{ bg: '#8B1A1A', border: '#e8e8e6' }],
     alt: 'Red Tee',
+    handle: 'pardon-mademoiselle-tee',
   },
   {
     id: 3,
@@ -37,6 +39,7 @@ export const collection = [
     priceEGP: '750 EGP',
     colors: [{ bg: '#1a2545', border: '#e8e8e6' }],
     alt: 'Navy Tee',
+    handle: 'pardon-mademoiselle-tee',
   },
   {
     id: 4,
@@ -46,6 +49,7 @@ export const collection = [
     priceEGP: '700 EGP',
     colors: [{ bg: '#f0f0f0', border: '#ccc' }],
     alt: 'Muscle Tee',
+    handle: 'bonjour-mademoiselle-muscle-tee',
   },
   {
     id: 5,
@@ -55,10 +59,13 @@ export const collection = [
     priceEGP: '640 EGP',
     colors: [{ bg: '#f0f0f0', border: '#ccc' }],
     alt: 'ARTLATE Crop Top',
+    handle: 'artlate-crop-top',
   },
 ]
 
 export const featureImage = product3
+
+export const accessories = []
 
 export const marqueeItems = [
   'The Art Of Being Late®',
