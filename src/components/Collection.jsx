@@ -43,6 +43,8 @@ function ProductCard({ product, currency }) {
 }
 
 export default function Collection({ currency }) {
+  const visible = collection.filter(p => !(p.usOnly && currency === 'egp'))
+
   return (
     <section className="coll">
       <div className="coll-head">
@@ -50,7 +52,7 @@ export default function Collection({ currency }) {
         <a className="coll-link" href="#">View All</a>
       </div>
       <div className="grid-5">
-        {collection.map(product => (
+        {visible.map(product => (
           <ProductCard key={product.id} product={product} currency={currency} />
         ))}
       </div>

@@ -56,10 +56,11 @@ export const collection = [
     image: product5,
     name: 'ARTLATE Crop Top',
     priceUSD: '$55',
-    priceEGP: '640 EGP',
+    priceEGP: null,
     colors: [{ bg: '#f0f0f0', border: '#ccc' }],
     alt: 'ARTLATE Crop Top',
     handle: 'artlate-crop-top',
+    usOnly: true,
   },
 ]
 

@@ -2,12 +2,14 @@ const domain = import.meta.env.VITE_SHOPIFY_STORE_DOMAIN
 const token = import.meta.env.VITE_SHOPIFY_STOREFRONT_TOKEN
 const endpoint = `https://${domain}/api/2026-01/graphql.json`
 
-export async function shopifyFetch(query, variables = {}) {
+// countryCode: 'US' | 'EG'
+export async function shopifyFetch(query, variables = {}, countryCode = 'US') {
   const res = await fetch(endpoint, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'X-Shopify-Storefront-Access-Token': token,
+      'Shopify-Storefront-Buyer-IP': '0.0.0.0',
     },
     body: JSON.stringify({ query, variables }),
   })
@@ -18,6 +20,10 @@ export async function shopifyFetch(query, variables = {}) {
   if (errors) throw new Error(errors[0].message)
 
   return data
+}
+
+export function currencyToCountry(currency) {
+  return currency === 'egp' ? 'EG' : 'US'
 }
 
 // ─── Queries ────────────────────────────────────────────────────────────────
