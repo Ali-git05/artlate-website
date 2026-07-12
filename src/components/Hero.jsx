@@ -2,9 +2,15 @@ import { useState } from 'react'
 import { heroProduct } from '../data/products'
 import { useShopifyProduct } from '../hooks/useShopifyProduct'
 import { useCart } from '../context/CartContext'
+import heroFront from '../assets/product-1.jpg'
+import heroBack from '../assets/product-1-back.jpg'
+import heroFlat from '../assets/product-1-flatlay.jpg'
+
+const images = [heroFront, heroBack, heroFlat]
 
 export default function Hero({ currency }) {
   const [activeSize, setActiveSize] = useState(heroProduct.defaultSize)
+  const [imgIndex, setImgIndex] = useState(0)
   const { variantMap } = useShopifyProduct(heroProduct.handle)
   const { addItem, loading } = useCart()
 
@@ -20,7 +26,22 @@ export default function Hero({ currency }) {
     <section className="hero">
       <div className="hero-left">
         <span className="hero-tag">{heroProduct.tag}</span>
-        <img className="hero-img" src={heroProduct.image} alt="Pardon Mademoiselle Tee" />
+        <img
+          className="hero-img"
+          src={images[imgIndex]}
+          alt="Pardon Mademoiselle Tee"
+        />
+        <div className="hero-thumbs">
+          {images.map((src, i) => (
+            <button
+              key={i}
+              className={`hero-thumb${imgIndex === i ? ' active' : ''}`}
+              onClick={() => setImgIndex(i)}
+            >
+              <img src={src} alt="" />
+            </button>
+          ))}
+        </div>
       </div>
       <div className="hero-right">
         <p className="hero-eye">{heroProduct.eye}</p>

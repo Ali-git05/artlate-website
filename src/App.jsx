@@ -11,6 +11,7 @@ import Feature from './components/Feature'
 import Accessories from './components/Accessories'
 import BigStatement from './components/BigStatement'
 import Footer from './components/Footer'
+import CartDrawer from './components/CartDrawer'
 
 export default function App() {
   const [currency, setCurrency] = useState('usd')
@@ -20,6 +21,7 @@ export default function App() {
       <Splash />
       <CurrencyBar currency={currency} setCurrency={setCurrency} />
       <Nav />
+      <CartDrawer />
       <Hero currency={currency} />
       <Marquee />
       <Collection currency={currency} />

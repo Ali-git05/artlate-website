@@ -105,72 +105,77 @@ export const PRODUCT_BY_HANDLE_QUERY = /* GraphQL */ `
 
 // ─── Mutations ───────────────────────────────────────────────────────────────
 
-export const CART_CREATE_MUTATION = /* GraphQL */ `
+export const CART_CREATE_MUTATION = `
   mutation CartCreate($lines: [CartLineInput!]!) {
     cartCreate(input: { lines: $lines }) {
-      cart {
+      cart { ${CART_FIELDS} }
+      userErrors { field message }
+    }
+  }
+`
+
+const CART_FIELDS = `
+  id
+  checkoutUrl
+  totalQuantity
+  cost { totalAmount { amount currencyCode } }
+  lines(first: 20) {
+    edges {
+      node {
         id
-        checkoutUrl
-        totalQuantity
-        lines(first: 10) {
-          edges {
-            node {
-              id
-              quantity
-              merchandise {
-                ... on ProductVariant {
-                  id
-                  title
-                  product {
-                    title
-                  }
-                  price {
-                    amount
-                    currencyCode
-                  }
-                }
-              }
-            }
+        quantity
+        merchandise {
+          ... on ProductVariant {
+            id
+            title
+            price { amount currencyCode }
+            product { title }
+            image { url altText }
           }
         }
-        cost {
-          totalAmount {
-            amount
-            currencyCode
-          }
-        }
-      }
-      userErrors {
-        field
-        message
       }
     }
   }
 `
 
-export const CART_LINES_ADD_MUTATION = /* GraphQL */ `
+export const CART_LINES_ADD_MUTATION = `
   mutation CartLinesAdd($cartId: ID!, $lines: [CartLineInput!]!) {
     cartLinesAdd(cartId: $cartId, lines: $lines) {
-      cart {
-        id
-        checkoutUrl
-        totalQuantity
-        cost {
-          totalAmount {
-            amount
-            currencyCode
-          }
-        }
-      }
-      userErrors {
-        field
-        message
-      }
+      cart { ${CART_FIELDS} }
+      userErrors { field message }
     }
+  }
+`
+
+export const CART_LINES_UPDATE_MUTATION = `
+  mutation CartLinesUpdate($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
+    cartLinesUpdate(cartId: $cartId, lines: $lines) {
+      cart { ${CART_FIELDS} }
+      userErrors { field message }
+    }
+  }
+`
+
+export const CART_LINES_REMOVE_MUTATION = `
+  mutation CartLinesRemove($cartId: ID!, $lineIds: [ID!]!) {
+    cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
+      cart { ${CART_FIELDS} }
+      userErrors { field message }
+    }
+  }
+`
+
+export const GET_CART_QUERY = `
+  query GetCart($cartId: ID!) {
+    cart(id: $cartId) { ${CART_FIELDS} }
   }
 `
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
+
+function parseLines(cart) {
+  return cart.lines.edges.map(({ node }) => node)
+}
 
 export async function getProducts(first = 12) {
   const data = await shopifyFetch(PRODUCTS_QUERY, { first })
@@ -182,11 +187,18 @@ export async function getProductByHandle(handle) {
   return data.product
 }
 
+export async function getCart(cartId) {
+  const data = await shopifyFetch(GET_CART_QUERY, { cartId })
+  if (!data.cart) return null
+  return { ...data.cart, lines: parseLines(data.cart) }
+}
+
 export async function createCart(variantId, quantity = 1) {
   const data = await shopifyFetch(CART_CREATE_MUTATION, {
     lines: [{ merchandiseId: variantId, quantity }],
   })
-  return data.cartCreate.cart
+  const cart = data.cartCreate.cart
+  return { ...cart, lines: parseLines(cart) }
 }
 
 export async function addToCart(cartId, variantId, quantity = 1) {
@@ -194,5 +206,24 @@ export async function addToCart(cartId, variantId, quantity = 1) {
     cartId,
     lines: [{ merchandiseId: variantId, quantity }],
   })
-  return data.cartLinesAdd.cart
+  const cart = data.cartLinesAdd.cart
+  return { ...cart, lines: parseLines(cart) }
+}
+
+export async function updateCartLine(cartId, lineId, quantity) {
+  const data = await shopifyFetch(CART_LINES_UPDATE_MUTATION, {
+    cartId,
+    lines: [{ id: lineId, quantity }],
+  })
+  const cart = data.cartLinesUpdate.cart
+  return { ...cart, lines: parseLines(cart) }
+}
+
+export async function removeCartLine(cartId, lineId) {
+  const data = await shopifyFetch(CART_LINES_REMOVE_MUTATION, {
+    cartId,
+    lineIds: [lineId],
+  })
+  const cart = data.cartLinesRemove.cart
+  return { ...cart, lines: parseLines(cart) }
 }
