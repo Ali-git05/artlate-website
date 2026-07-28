@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { getProductByHandle } from '../lib/shopify'
 
-export function useShopifyProduct(handle) {
+export function useShopifyProduct(handle, countryCode = 'US') {
   const [product, setProduct] = useState(null)
   const [loading, setLoading] = useState(true)
 
@@ -9,12 +9,12 @@ export function useShopifyProduct(handle) {
     if (!handle) return
     let cancelled = false
     setLoading(true)
-    getProductByHandle(handle)
+    getProductByHandle(handle, countryCode)
       .then(data => { if (!cancelled) setProduct(data) })
       .catch(() => { if (!cancelled) setProduct(null) })
       .finally(() => { if (!cancelled) setLoading(false) })
     return () => { cancelled = true }
-  }, [handle])
+  }, [handle, countryCode])
 
   // Returns variants keyed by title (e.g. "S", "M", "L", "XL" or "Black / M")
   const variantMap = {}

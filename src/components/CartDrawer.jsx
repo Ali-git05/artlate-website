@@ -31,7 +31,9 @@ export default function CartDrawer() {
                     <div className="cart-line-info">
                       <p className="cart-line-name">{merchandise.product.title}</p>
                       <p className="cart-line-variant">{merchandise.title}</p>
-                      <p className="cart-line-price">${total} {merchandise.price.currencyCode}</p>
+                      <p className="cart-line-price">
+                        {merchandise.price.currencyCode === 'EGP' ? `${total} EGP` : `$${total}`}
+                      </p>
                       <div className="cart-line-qty">
                         <button
                           onClick={() => line.quantity > 1 ? updateItem(line.id, line.quantity - 1) : removeItem(line.id)}

@@ -9,17 +9,19 @@ export async function shopifyFetch(query, variables = {}, countryCode = 'US') {
     headers: {
       'Content-Type': 'application/json',
       'X-Shopify-Storefront-Access-Token': token,
-      'Shopify-Storefront-Buyer-IP': '0.0.0.0',
     },
     body: JSON.stringify({ query, variables }),
   })
 
   if (!res.ok) throw new Error(`Shopify API error: ${res.status}`)
 
-  const { data, errors } = await res.json()
-  if (errors) throw new Error(errors[0].message)
+  const json = await res.json()
+  if (json.errors) {
+    console.error('Shopify GraphQL errors:', JSON.stringify(json.errors, null, 2))
+    throw new Error(json.errors[0].message)
+  }
 
-  return data
+  return json.data
 }
 
 export function currencyToCountry(currency) {
@@ -66,7 +68,7 @@ export const PRODUCTS_QUERY = /* GraphQL */ `
 `
 
 export const PRODUCT_BY_HANDLE_QUERY = /* GraphQL */ `
-  query ProductByHandle($handle: String!) {
+  query ProductByHandle($handle: String!, $countryCode: CountryCode!) @inContext(country: $countryCode) {
     product(handle: $handle) {
       id
       title
@@ -105,15 +107,6 @@ export const PRODUCT_BY_HANDLE_QUERY = /* GraphQL */ `
 
 // ─── Mutations ───────────────────────────────────────────────────────────────
 
-export const CART_CREATE_MUTATION = `
-  mutation CartCreate($lines: [CartLineInput!]!, $countryCode: CountryCode!) @inContext(country: $countryCode) {
-    cartCreate(input: { lines: $lines }) {
-      cart { ${CART_FIELDS} }
-      userErrors { field message }
-    }
-  }
-`
-
 const CART_FIELDS = `
   id
   checkoutUrl
@@ -138,8 +131,17 @@ const CART_FIELDS = `
   }
 `
 
+export const CART_CREATE_MUTATION = `
+  mutation CartCreate($lines: [CartLineInput!]!, $countryCode: CountryCode!) @inContext(country: $countryCode) {
+    cartCreate(input: { lines: $lines }) {
+      cart { ${CART_FIELDS} }
+      userErrors { field message }
+    }
+  }
+`
+
 export const CART_LINES_ADD_MUTATION = `
-  mutation CartLinesAdd($cartId: ID!, $lines: [CartLineInput!]!) {
+  mutation CartLinesAdd($cartId: ID!, $lines: [CartLineInput!]!, $countryCode: CountryCode!) @inContext(country: $countryCode) {
     cartLinesAdd(cartId: $cartId, lines: $lines) {
       cart { ${CART_FIELDS} }
       userErrors { field message }
@@ -182,8 +184,8 @@ export async function getProducts(first = 12) {
   return data.products.edges.map(({ node }) => node)
 }
 
-export async function getProductByHandle(handle) {
-  const data = await shopifyFetch(PRODUCT_BY_HANDLE_QUERY, { handle })
+export async function getProductByHandle(handle, countryCode = 'US') {
+  const data = await shopifyFetch(PRODUCT_BY_HANDLE_QUERY, { handle, countryCode })
   return data.product
 }
 
@@ -193,25 +195,27 @@ export async function getCart(cartId) {
   return { ...data.cart, lines: parseLines(data.cart) }
 }
 
-export async function createCart(variantId, quantity = 1) {
-  // Always use US market until Egypt payment provider is configured
+export async function createCart(variantId, quantity = 1, countryCode = 'US') {
   const data = await shopifyFetch(CART_CREATE_MUTATION, {
     lines: [{ merchandiseId: variantId, quantity }],
-    countryCode: 'US',
+    countryCode,
   })
   if (data.cartCreate.userErrors?.length) {
+    console.error('cartCreate userErrors:', data.cartCreate.userErrors)
     throw new Error(data.cartCreate.userErrors[0].message)
   }
   const cart = data.cartCreate.cart
   return { ...cart, lines: parseLines(cart) }
 }
 
-export async function addToCart(cartId, variantId, quantity = 1) {
+export async function addToCart(cartId, variantId, quantity = 1, countryCode = 'US') {
   const data = await shopifyFetch(CART_LINES_ADD_MUTATION, {
     cartId,
     lines: [{ merchandiseId: variantId, quantity }],
+    countryCode,
   })
   if (data.cartLinesAdd.userErrors?.length) {
+    console.error('cartLinesAdd userErrors:', data.cartLinesAdd.userErrors)
     throw new Error(data.cartLinesAdd.userErrors[0].message)
   }
   const cart = data.cartLinesAdd.cart

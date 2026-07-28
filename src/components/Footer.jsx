@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 export default function Footer() {
   return (
     <footer>
@@ -13,36 +15,31 @@ export default function Footer() {
         <div className="fc">
           <p className="fc-t">Shop</p>
           <ul>
-            <li><a href="#">Drop 001</a></li>
-            <li><a href="#">Tees</a></li>
-            <li><a href="#">Accessories</a></li>
-            <li><a href="#">All Products</a></li>
+            <li><a href="/#collection">Drop 001</a></li>
+            <li><a href="/#collection">Tees</a></li>
+            <li><a href="/#collection">All Products</a></li>
           </ul>
         </div>
         <div className="fc">
           <p className="fc-t">Help</p>
           <ul>
-            <li><a href="#">Sizing Guide</a></li>
-            <li><a href="#">Shipping</a></li>
-            <li><a href="#">Returns</a></li>
-            <li><a href="#">Contact</a></li>
+            <li><a href="mailto:artlateclothes@gmail.com">Contact</a></li>
+            <li><Link to="/refund-policy">Refund Policy</Link></li>
           </ul>
         </div>
         <div className="fc">
           <p className="fc-t">Brand</p>
           <ul>
-            <li><a href="#">About Us</a></li>
-            <li><a href="https://www.instagram.com/artlate" target="_blank" rel="noopener noreferrer">Instagram</a></li>
-            <li><a href="https://www.tiktok.com/@artlate" target="_blank" rel="noopener noreferrer">TikTok</a></li>
-            <li><a href="#">Press</a></li>
+            <li><a href="https://www.instagram.com/artlate.co/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+            <li><a href="https://www.tiktok.com/@artlate.co" target="_blank" rel="noopener noreferrer">TikTok</a></li>
           </ul>
         </div>
       </div>
       <div className="fbot">
         <span className="fc-copy">© 2026 Art Late® · All rights reserved</span>
         <div className="fsoc">
-          <a href="https://www.instagram.com/artlate" target="_blank" rel="noopener noreferrer">Instagram</a>
-          <a href="https://www.tiktok.com/@artlate" target="_blank" rel="noopener noreferrer">TikTok</a>
+          <a href="https://www.instagram.com/artlate.co/" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="https://www.tiktok.com/@artlate.co" target="_blank" rel="noopener noreferrer">TikTok</a>
         </div>
       </div>
     </footer>

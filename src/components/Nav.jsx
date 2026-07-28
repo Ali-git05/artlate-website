@@ -6,13 +6,12 @@ export default function Nav() {
   return (
     <nav>
       <div className="nav-left nav-desktop">
-        <a href="#">Shop</a>
-        <a href="#">Drop 001</a>
-        <a href="#">About</a>
+        <a href="/#collection">Shop</a>
+        <a href="/#collection">Drop 001</a>
+        <a href="/#about">About</a>
       </div>
       <div className="nav-logo">Art Late</div>
       <div className="nav-right">
-        <a href="#" className="search-link nav-desktop">Search</a>
         <button className="cart-btn" onClick={openCart}>
           Cart {totalQuantity > 0 && `(${totalQuantity})`}
         </button>

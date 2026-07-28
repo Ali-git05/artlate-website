@@ -3,13 +3,24 @@ import { createCart, addToCart, updateCartLine, removeCartLine, getCart } from '
 
 const CartContext = createContext(null)
 
-export function CartProvider({ children }) {
+export function CartProvider({ children, currency }) {
   const [cartId, setCartId] = useState(() => localStorage.getItem('artlate_cart_id'))
   const [checkoutUrl, setCheckoutUrl] = useState(null)
   const [lines, setLines] = useState([])
   const [totalQuantity, setTotalQuantity] = useState(0)
   const [loading, setLoading] = useState(false)
   const [cartOpen, setCartOpen] = useState(false)
+
+  const countryCode = currency === 'egp' ? 'EG' : 'US'
+
+  // Clear cart when currency changes so next add creates a new cart in the right market
+  useEffect(() => {
+    localStorage.removeItem('artlate_cart_id')
+    setCartId(null)
+    setLines([])
+    setTotalQuantity(0)
+    setCheckoutUrl(null)
+  }, [currency])
 
   // Load existing cart on mount
   useEffect(() => {
@@ -37,30 +48,32 @@ export function CartProvider({ children }) {
       let cart
       const currentCartId = localStorage.getItem('artlate_cart_id')
       if (currentCartId) {
-        cart = await addToCart(currentCartId, variantId, quantity)
+        cart = await addToCart(currentCartId, variantId, quantity, countryCode)
       } else {
-        cart = await createCart(variantId, quantity)
+        cart = await createCart(variantId, quantity, countryCode)
         localStorage.setItem('artlate_cart_id', cart.id)
         setCartId(cart.id)
       }
       applyCart(cart)
       setCartOpen(true)
-    } catch {
+    } catch (err) {
+      console.error('addToCart/createCart failed:', err)
       localStorage.removeItem('artlate_cart_id')
       setCartId(null)
       try {
-        const cart = await createCart(variantId, quantity)
+        const cart = await createCart(variantId, quantity, countryCode)
         localStorage.setItem('artlate_cart_id', cart.id)
         setCartId(cart.id)
         applyCart(cart)
         setCartOpen(true)
-      } catch {
-        alert('Could not add to cart. Please try again.')
+      } catch (err) {
+        console.error('createCart fallback failed:', err)
+        alert(`Could not add to cart: ${err?.message || err}`)
       }
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [countryCode])
 
   const removeItem = useCallback(async (lineId) => {
     const currentCartId = localStorage.getItem('artlate_cart_id')

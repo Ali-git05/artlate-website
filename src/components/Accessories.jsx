@@ -1,6 +1,7 @@
 import { accessories } from '../data/products'
 
 export default function Accessories({ currency }) {
+  if (accessories.length === 0) return null
   return (
     <section className="acc-section">
       <div className="acc-head">

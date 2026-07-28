@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { collection } from '../data/products'
 import { useShopifyProduct } from '../hooks/useShopifyProduct'
 import { useCart } from '../context/CartContext'
@@ -6,7 +7,7 @@ function ProductCard({ product, currency }) {
   const { variantMap } = useShopifyProduct(product.handle)
   const { addItem, loading } = useCart()
 
-  const firstAvailable = Object.values(variantMap).find(v => v.availableForSale)
+  const firstAvailable = !product.soldOut && Object.values(variantMap).find(v => v.availableForSale)
 
   function handleQuickAdd() {
     if (!firstAvailable) return
@@ -15,14 +16,18 @@ function ProductCard({ product, currency }) {
 
   return (
     <div className="pc">
-      <div className="pc-img">
-        <img src={product.image} alt={product.alt} />
-        {firstAvailable && (
-          <button className="pc-quick-add" onClick={handleQuickAdd} disabled={loading}>
-            {loading ? '…' : 'Quick Add'}
-          </button>
-        )}
-      </div>
+      <Link to={`/products/${product.handle}`} className="pc-img-link">
+        <div className="pc-img">
+          <img src={product.image} alt={product.alt} />
+          {product.soldOut ? (
+            <div className="pc-sold-out">Sold Out</div>
+          ) : firstAvailable ? (
+            <button className="pc-quick-add" onClick={e => { e.preventDefault(); handleQuickAdd() }} disabled={loading}>
+              {loading ? '…' : 'Quick Add'}
+            </button>
+          ) : null}
+        </div>
+      </Link>
       <p className="pc-name">{product.name}</p>
       {currency === 'usd' ? (
         <p className="pc-price usd-price">{product.priceUSD}</p>
@@ -43,13 +48,12 @@ function ProductCard({ product, currency }) {
 }
 
 export default function Collection({ currency }) {
-  const visible = collection.filter(p => !(p.usOnly && currency === 'egp'))
+  const visible = collection
 
   return (
-    <section className="coll">
+    <section className="coll" id="collection">
       <div className="coll-head">
         <h2 className="coll-title">Drop 001</h2>
-        <a className="coll-link" href="#">View All</a>
       </div>
       <div className="grid-5">
         {visible.map(product => (
