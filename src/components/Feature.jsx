@@ -2,7 +2,7 @@ import { featureImage } from '../data/products'
 
 export default function Feature() {
   return (
-    <section className="feat">
+    <section className="feat" id="about">
       <div className="feat-img">
         <img src={featureImage} alt="Cheers Mademoiselle" />
       </div>
@@ -14,7 +14,7 @@ export default function Feature() {
         <p className="feat-desc">
           Built in Egypt. Distributed from Florida. Art Late® is for people who do things differently — intentionally, unhurriedly, beautifully.
         </p>
-        <button className="btn-wh">Our Story</button>
+        <a className="btn-wh" href="https://www.instagram.com/artlate.co/" target="_blank" rel="noopener noreferrer">Follow Us</a>
       </div>
     </section>
   )

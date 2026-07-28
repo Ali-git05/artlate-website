@@ -1,6 +1,6 @@
 import splashLogo from '../assets/splash-logo.jpg'
-import hero from '../assets/product-1-back.jpg'
-import product1 from '../assets/product-1.jpg'
+import hero from '../assets/product-1-flatlay.jpg'
+import product1 from '../assets/pardon-mademoiselle-flatlay.png'
 import product3 from '../assets/product-3.jpg'
 import product4 from '../assets/product-4.jpg'
 import product5 from '../assets/product-5.jpg'
@@ -33,34 +33,34 @@ export const collection = [
   },
   {
     id: 3,
-    image: product3,
-    name: 'Pardon Mademoiselle Tee',
+    image: 'https://cdn.shopify.com/s/files/1/0832/4422/0672/files/1.jpg?v=1784005476',
+    name: 'Midnight Club Tee',
     priceUSD: '$35',
     priceEGP: '1,200 EGP',
     colors: [{ bg: '#1a2545', border: '#e8e8e6' }],
-    alt: 'Navy Tee',
-    handle: 'pardon-mademoiselle',
+    alt: 'Midnight Club Tee',
+    handle: 'midnight-club-tee',
   },
   {
-    id: 4,
+    id: 6,
     image: product4,
-    name: 'Bonjour Mademoiselle Muscle Tee',
+    name: 'Love Shot Tank',
     priceUSD: '$30',
     priceEGP: '1,000 EGP',
     colors: [{ bg: '#f0f0f0', border: '#ccc' }],
-    alt: 'Muscle Tee',
-    handle: 'bonjour-mademoiselle-muscle-tee',
+    alt: 'Love Shot Tank',
+    handle: 'love-shot-tank',
   },
   {
     id: 5,
     image: product5,
     name: 'ARTLATE Crop Top',
     priceUSD: '$35',
-    priceEGP: null,
+    priceEGP: '1,100 EGP',
     colors: [{ bg: '#f0f0f0', border: '#ccc' }],
     alt: 'ARTLATE Crop Top',
     handle: 'artlate-crop-top',
-    usOnly: true,
+    soldOut: true,
   },
 ]
 
