@@ -41,7 +41,7 @@ function getInitialCurrency(searchParams) {
     return { currency, skipSplash: true }
   }
   const saved = localStorage.getItem(STORAGE_KEY)
-  return { currency: saved || 'usd', skipSplash: !!saved }
+  return { currency: saved || 'usd', skipSplash: false }
 }
 
 export default function App() {
@@ -50,7 +50,6 @@ export default function App() {
   const [currency, setCurrency] = useState(initial)
 
   const handleSetCurrency = (value) => {
-    localStorage.setItem(STORAGE_KEY, value)
     setCurrency(value)
   }
 
