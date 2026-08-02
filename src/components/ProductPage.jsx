@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useShopifyProduct } from '../hooks/useShopifyProduct'
 import { useCart } from '../context/CartContext'
+import { pixelTrack } from '../lib/pixel'
 
 export default function ProductPage({ currency }) {
   const { handle } = useParams()
@@ -10,6 +11,17 @@ export default function ProductPage({ currency }) {
   const { addItem, loading: cartLoading } = useCart()
   const [activeSize, setActiveSize] = useState(null)
   const [imgIndex, setImgIndex] = useState(0)
+
+  useEffect(() => {
+    if (!product) return
+    const variant = product.variants.edges[0]?.node
+    pixelTrack('ViewContent', {
+      content_name: product.title,
+      content_ids: [product.id],
+      content_type: 'product',
+      ...(variant && { value: parseFloat(variant.price.amount), currency: variant.price.currencyCode }),
+    })
+  }, [product?.id])
 
   if (productLoading) return <div className="pdp-loading">Loading…</div>
   if (!product) return <div className="pdp-loading">Product not found.</div>
@@ -28,6 +40,13 @@ export default function ProductPage({ currency }) {
   function handleAddToCart() {
     if (!selectedVariant) return
     addItem(selectedVariant.id)
+    pixelTrack('AddToCart', {
+      content_name: product.title,
+      content_ids: [product.id],
+      content_type: 'product',
+      value: parseFloat(selectedVariant.price.amount),
+      currency: selectedVariant.price.currencyCode,
+    })
   }
 
   return (
