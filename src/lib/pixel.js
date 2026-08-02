@@ -1,3 +1,7 @@
-const fbq = (...args) => typeof window.fbq === 'function' && window.fbq(...args)
-
-export const pixelTrack = (event, params = {}) => fbq('track', event, params)
+export const pixelTrack = (event, params = {}) => {
+  if (typeof window.fbq !== 'function') {
+    console.warn('[Pixel] fbq not loaded — skipped event:', event)
+    return
+  }
+  window.fbq('track', event, params)
+}

@@ -39,7 +39,6 @@ export default function ProductPage({ currency }) {
 
   function handleAddToCart() {
     if (!selectedVariant) return
-    addItem(selectedVariant.id)
     pixelTrack('AddToCart', {
       content_name: product.title,
       content_ids: [product.id],
@@ -47,6 +46,7 @@ export default function ProductPage({ currency }) {
       value: parseFloat(selectedVariant.price.amount),
       currency: selectedVariant.price.currencyCode,
     })
+    addItem(selectedVariant.id)
   }
 
   return (
