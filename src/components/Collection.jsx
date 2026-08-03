@@ -11,6 +11,13 @@ function ProductCard({ product, currency }) {
 
   function handleQuickAdd() {
     if (!firstAvailable) return
+    fbq('track', 'AddToCart', {
+      content_name: product.name,
+      content_ids: [product.id],
+      value: parseFloat(firstAvailable.price.amount),
+      currency: 'USD',
+      quantity: 1,
+    })
     addItem(firstAvailable.id)
   }
 
